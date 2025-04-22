@@ -1,4 +1,10 @@
 import { eachDayOfInterval } from "date-fns";
+import { supabase } from "./supabase";
+import {
+  mapToLocalCabinsObject,
+  mapToLocalGuestsObject,
+  mapToLocalObject,
+} from "./helpers";
 
 /////////////
 // GET
@@ -17,13 +23,13 @@ export async function getCabin(id) {
     console.error(error);
   }
 
-  return data;
+  return mapToLocalCabinsObject(data);
 }
 
 export async function getCabinPrice(id) {
   const { data, error } = await supabase
     .from("cabins")
-    .select("regularPrice, discount")
+    .select("regular_price, discount")
     .eq("id", id)
     .single();
 
@@ -31,13 +37,13 @@ export async function getCabinPrice(id) {
     console.error(error);
   }
 
-  return data;
+  return mapToLocalCabinsObject(data);
 }
 
 export const getCabins = async function () {
   const { data, error } = await supabase
     .from("cabins")
-    .select("id, name, maxCapacity, regularPrice, discount, image")
+    .select("id, name, max_capacity, regular_price, discount, image")
     .order("name");
 
   if (error) {
@@ -45,7 +51,7 @@ export const getCabins = async function () {
     throw new Error("Cabins could not be loaded");
   }
 
-  return data;
+  return data.map(mapToLocalCabinsObject);
 };
 
 // Guests are uniquely identified by their email address
@@ -57,7 +63,7 @@ export async function getGuest(email) {
     .single();
 
   // No error here! We handle the possibility of no guest in the sign in callback
-  return data;
+  return mapToLocalGuestsObject(data);
 }
 
 export async function getBooking(id) {
@@ -72,7 +78,7 @@ export async function getBooking(id) {
     throw new Error("Booking could not get loaded");
   }
 
-  return data;
+  return mapToLocalObject(data);
 }
 
 export async function getBookings(guestId) {
@@ -80,9 +86,9 @@ export async function getBookings(guestId) {
     .from("bookings")
     // We actually also need data on the cabins as well. But let's ONLY take the data that we actually need, in order to reduce downloaded data.
     .select(
-      "id, created_at, startDate, endDate, numNights, numGuests, totalPrice, guestId, cabinId, cabins(name, image)",
+      "id, created_at, start_date, end_date, num_nights, num_guests, total_price, guest_id, cabin_id, cabins(name, image)",
     )
-    .eq("guestId", guestId)
+    .eq("guest_id", guestId)
     .order("startDate");
 
   if (error) {
@@ -90,7 +96,7 @@ export async function getBookings(guestId) {
     throw new Error("Bookings could not get loaded");
   }
 
-  return data;
+  return data.map(mapToLocalObject);
 }
 
 export async function getBookedDatesByCabinId(cabinId) {
@@ -102,8 +108,8 @@ export async function getBookedDatesByCabinId(cabinId) {
   const { data, error } = await supabase
     .from("bookings")
     .select("*")
-    .eq("cabinId", cabinId)
-    .or(`startDate.gte.${today},status.eq.checked-in`);
+    .eq("cabin_id", cabinId)
+    .or(`start_date.gte.${today},status.eq.checked-in`);
 
   if (error) {
     console.error(error);
@@ -112,6 +118,7 @@ export async function getBookedDatesByCabinId(cabinId) {
 
   // Converting to actual dates to be displayed in the date picker
   const bookedDates = data
+    .map(mapToLocalObject)
     .map((booking) => {
       return eachDayOfInterval({
         start: new Date(booking.startDate),
@@ -137,11 +144,11 @@ export async function getSettings() {
 export async function getCountries() {
   try {
     const res = await fetch(
-      // "https://restcountries.com/v2/all?fields=name,flag", Not working
-      "https://countriesnow.space/api/v0.1/countries/flag/images",
+      "https://restcountries.com/v2/all?fields=name,flag",
+      // "https://countriesnow.space/api/v0.1/countries/flag/images", alternative
     );
     const countries = await res.json();
-    return countries.data;
+    return countries;
   } catch (e) {
     throw new Error("Could not fetch countries" + e.message);
   }
