@@ -1,5 +1,6 @@
 import SelectCountry from "@/app/_components/SelectCountry";
 import SpinnerMini from "@/app/_components/SpinnerMini";
+import Image from "next/image";
 import { Suspense } from "react";
 
 export const metadata = {
@@ -42,11 +43,11 @@ export default function Page() {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <label htmlFor="nationality">Where are you from?</label>
-            <img
+            {/* <Image
               src={countryFlag}
               alt="Country flag"
               className="h-5 rounded-sm"
-            />
+            /> */}
           </div>
           <Suspense fallback={<SpinnerMini />}>
             <SelectCountry
