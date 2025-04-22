@@ -20,7 +20,7 @@ export function mapToLocalGuestsObject(guest) {
 export function mapToLocalCabinsObject(cabin) {
   if (!cabin) return;
   return {
-    ...omitProperties(cabin, ["max_xapacity", "regular_price"]),
+    ...omitProperties(cabin, ["max_capacity", "regular_price"]),
     maxCapacity: cabin.max_capacity,
     regularPrice: cabin.regular_price,
   };
