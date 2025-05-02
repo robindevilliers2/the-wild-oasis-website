@@ -42,6 +42,18 @@ export async function getCabinPrice(id) {
   return mapToLocalCabinsObject(data);
 }
 
+export const getCabinsTotal = async function () {
+  const { data, error, count } = await supabase
+    .from("cabins")
+    .select("*", { count: "exact", head: true });
+
+  if (error) {
+    console.log(error);
+    throw new Error("Could not get total cabins");
+  }
+  return { data, count };
+};
+
 export const getCabins = async function () {
   const { data, error } = await supabase
     .from("cabins")
