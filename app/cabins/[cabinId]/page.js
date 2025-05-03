@@ -10,8 +10,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const resolvedParams = await params;
-  const { name } = await getCabin(resolvedParams.cabinId);
+  const { cabinId } = await params;
+  const { name } = await getCabin(cabinId);
 
   return {
     title: `Cabin ${name}`,
@@ -19,8 +19,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
-  const resolvedParams = await params;
-  const cabin = await getCabin(resolvedParams.cabinId);
+  const { cabinId } = await params;
+  const cabin = await getCabin(cabinId);
 
   return (
     <div className="mx-auto mt-8 max-w-6xl">
