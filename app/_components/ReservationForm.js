@@ -2,7 +2,7 @@
 
 import { useReservation } from "./ReservationContext";
 
-function ReservationForm({ cabin }) {
+function ReservationForm({ user, cabin }) {
   const { range } = useReservation();
   const { maxCapacity } = cabin;
 
@@ -11,16 +11,16 @@ function ReservationForm({ cabin }) {
       <div className="flex items-center justify-between bg-primary-800 px-16 py-2 text-primary-300">
         <p>Logged in as</p>
 
-        {/* <div className='flex gap-4 items-center'>
+        <div className="flex items-center gap-4">
           <img
             // Important to display google profile images
-            referrerPolicy='no-referrer'
-            className='h-8 rounded-full'
+            referrerPolicy="no-referrer"
+            className="h-8 rounded-full"
             src={user.image}
             alt={user.name}
           />
           <p>{user.name}</p>
-        </div> */}
+        </div>
       </div>
 
       <form className="flex flex-col gap-5 bg-primary-900 px-16 py-10 text-lg">
