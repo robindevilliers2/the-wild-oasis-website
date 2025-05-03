@@ -13,6 +13,7 @@ function Guest() {
           href="/account"
           className="flex items-center gap-4 transition-colors hover:text-accent-400"
         >
+          {/* eslint-disable-next-line @next/next/no-img-element*/}
           <img
             className="h-8 rounded-full"
             src={session.user.image}

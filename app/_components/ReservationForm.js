@@ -12,6 +12,7 @@ function ReservationForm({ user, cabin }) {
         <p>Logged in as</p>
 
         <div className="flex items-center gap-4">
+          {/* eslint-disable-next-line @next/next/no-img-element*/}
           <img
             // Important to display google profile images
             referrerPolicy="no-referrer"
