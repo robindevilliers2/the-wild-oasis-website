@@ -4,11 +4,11 @@ import Link from "next/link";
 import { useAuth } from "./AuthContext";
 
 function Guest() {
-  const { session } = useAuth();
+  const { user } = useAuth();
 
   return (
     <div>
-      {session?.user?.image ? (
+      {user?.image ? (
         <Link
           href="/account"
           className="flex items-center gap-4 transition-colors hover:text-accent-400"
@@ -16,8 +16,8 @@ function Guest() {
           {/* eslint-disable-next-line @next/next/no-img-element*/}
           <img
             className="h-8 rounded-full"
-            src={session.user.image}
-            alt={session.user.name}
+            src={user.image}
+            alt={user.name}
             referrerPolicy="no-referrer"
           />
           <span>Guest area</span>
