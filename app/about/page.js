@@ -90,6 +90,7 @@ export default async function Page() {
           </div>
         </div>
       </div>
+      <Link href="/privacy_policy.html">Privacy Policy</Link>
     </div>
   );
 }
