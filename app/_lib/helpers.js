@@ -40,6 +40,8 @@ export function mapToLocalObject(booking) {
       "total_price",
       "has_breakfast",
       "is_paid",
+      "cabin_id",
+      "guest_id",
     ]),
     startDate: booking.start_date,
     endDate: booking.end_date,
@@ -50,6 +52,8 @@ export function mapToLocalObject(booking) {
     totalPrice: booking.total_price,
     hasBreakfast: booking.has_breakfast,
     isPaid: booking.is_paid,
+    cabinId: booking.cabin_id,
+    guestId: booking.guest_id,
     cabins: mapToLocalCabinsObject(booking.cabins),
     guests: mapToLocalGuestsObject(booking.guests),
   };
