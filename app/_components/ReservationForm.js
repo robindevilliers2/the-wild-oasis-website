@@ -26,6 +26,9 @@ function ReservationForm({ user, cabin }) {
 
   const createReservationWithData = createReservation.bind(null, bookingData);
 
+  console.log(startDate);
+  console.log(endDate);
+
   return (
     <div className="scale-[1.01]">
       <div className="flex items-center justify-between bg-primary-800 px-16 py-2 text-primary-300">
